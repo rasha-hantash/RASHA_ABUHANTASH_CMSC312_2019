@@ -1,0 +1,13 @@
+Name: Text Processor
+Total runtime: 175
+Memory: 45
+
+I/0 35
+I/0 20
+I/0 20
+I/0 50
+I/0 10
+CRIT +
+CALCULATE 40
+CRIT -
+EXE
