@@ -4,16 +4,20 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class SchedularThread extends Thread {
     ArrayList<Process> readyQueue = new ArrayList<Process>();
+    ArrayList<Process> readyQueue2 = new ArrayList<Process>();
     int timeQuantum;
-    int queueNumber;
+    int timeQuantum2;
+
     WaitingQueue waitQueue;
     Schedular schedular = new Schedular();
     ReentrantLock lock = new ReentrantLock();
 
-    public SchedularThread(ArrayList<Process> readyQueue, int timeQuantum, int queueNumber) {
+    public SchedularThread(ArrayList<Process> readyQueue, ArrayList<Process> readyQueue2,int timeQuantum, int timeQuantum2) {
         this.readyQueue = readyQueue;
+        this.readyQueue2 = readyQueue2;
         this.timeQuantum = timeQuantum;
-        this.queueNumber = queueNumber;
+        this.timeQuantum2 = timeQuantum2;
+        
         waitQueue = new WaitingQueue();
 
     }
@@ -240,7 +244,8 @@ public class SchedularThread extends Thread {
                     GUI.timeQuantum.setText("Time quantum: " + timeQuantum);
     
                     lock.unlock();
-                    timeQuantum = schedular.schedular(readyQueue, timeQuantum, queueNumber);
+                    timeQuantum = schedular.schedular(readyQueue, timeQuantum, 0);
+                    timeQuantum2 = schedular.schedular(readyQueue2, timeQuantum, 1);
                     waitQueue.waitingQueue();
                 }
                 System.out.println(Clock.cycle + " cycles left");

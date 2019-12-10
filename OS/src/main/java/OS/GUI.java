@@ -149,7 +149,7 @@ public final class GUI  extends Application {
                     Clock.fileReader(Clock.processRequest[2], "src/main/java/OS/programfile2.txt");
                     Clock.fileReader(Clock.processRequest[3], "src/main/java/OS/programfile3.txt");
                     Clock.fileReader(Clock.processRequest[4], "src/main/java/OS/programfile4.txt");
-                    SchedularThread schedularThread = new SchedularThread(Clock.readyQueue, Clock.rQTimeQuantum, 0);
+                    SchedularThread schedularThread = new SchedularThread(Clock.readyQueue, Clock.readyQueue2, Clock.rQTimeQuantum, Clock.rQueueTimeQuantum2);
                     schedularThread.start();
                 
             }

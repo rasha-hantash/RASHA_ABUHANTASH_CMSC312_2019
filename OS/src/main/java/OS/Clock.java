@@ -10,8 +10,10 @@ public class Clock {
 
     public static ArrayList<Process> waitingQueue = new ArrayList<>();
     public static ArrayList<Process> readyQueue = new ArrayList<>();
+    public static ArrayList<Process> readyQueue2 = new ArrayList<>();
     public static ArrayList<Process> terminatedQueue = new ArrayList<>();
     public static int rQTimeQuantum = 40;
+    public static int rQueueTimeQuantum2 = 100; 
     static int clockCycle = 0;
     static int cycle = 0;
     static boolean goAgain = true;
@@ -148,10 +150,20 @@ public class Clock {
                 
                 
                 if(Memory.memorySize > memorySum) {
-                    //change this to see if i can load it into memory if not add onto waiting  
-                    Memory.memorySize -= memorySum;
-                    dispatcher.changeState(process, ProcessStates.READY);
-                    readyQueue.add(process);
+                    //change this to see if i can load it into memory if not add onto waiting
+                    Random ran = new Random();
+                    int randomQueue =  ran.nextInt(2);
+                    if(randomQueue == 0){
+                        Memory.memorySize -= memorySum;
+                        dispatcher.changeState(process, ProcessStates.READY);
+                        readyQueue.add(process);
+                    } else {
+                        System.out.println("In readyQueue2");
+                        Memory.memorySize -= memorySum;
+                        dispatcher.changeState(process, ProcessStates.READY);
+                        readyQueue2.add(process);
+                    }
+                    
                 } else {
                     dispatcher.changeState(process, ProcessStates.WAIT);
                     waitingQueue.add(process);

@@ -7,7 +7,6 @@ public class Schedular {
     Dispatcher dispatcher = new Dispatcher();
     
     public int schedular(ArrayList<Process> readyQueue, int timeQuantum, int queueNumber) {
-        int terminatedProcessCounter = 3;
         
        
         if(readyQueue.size() !=0){
@@ -41,6 +40,7 @@ public class Schedular {
                     if(queueNumber <= 0){
                         timeQuantum = 40;
                     } else if (queueNumber == 1){
+                        System.out.println("HIT 1");
                         timeQuantum = 100;
                     }
                     
