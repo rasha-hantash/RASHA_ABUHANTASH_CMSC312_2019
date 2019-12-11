@@ -35,7 +35,7 @@ public class SchedularThread extends Thread {
                 while (readyQueue.size() != 0 || Clock.waitingQueue.size() != 0 || readyQueue2.size()!=0) {
                     Clock.clockCycle++;
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(30);
                      } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -448,17 +448,13 @@ public class SchedularThread extends Thread {
                 Clock.cycle--;
                 if(Clock.cycle > 0){
 
-                    Clock.fileReader(Clock.processRequest[0], "OS/src/main/java/OS/programfile0.txt");
-                    Clock.fileReader(Clock.processRequest[1], "OS/src/main/java/OS/programfile1.txt");
-                    Clock.fileReader(Clock.processRequest[2], "OS/src/main/java/OS/programfile2.txt");
-                    Clock.fileReader(Clock.processRequest[3], "OS/src/main/java/OS/programfile3.txt");
-                    Clock.fileReader(Clock.processRequest[4], "OS/src/main/java/OS/programfile4.txt");
+               
 
-                    // Clock.fileReader(Clock.processRequest[0], "src/main/java/OS/programfile0.txt");
-                    // Clock.fileReader(Clock.processRequest[1], "src/main/java/OS/programfile1.txt");
-                    // Clock.fileReader(Clock.processRequest[2], "src/main/java/OS/programfile2.txt");
-                    // Clock.fileReader(Clock.processRequest[3], "src/main/java/OS/programfile3.txt");
-                    // Clock.fileReader(Clock.processRequest[4], "src/main/java/OS/programfile4.txt");
+                    Clock.fileReader(Clock.processRequest[0], "src/main/java/OS/programfile0.txt");
+                    Clock.fileReader(Clock.processRequest[1], "src/main/java/OS/programfile1.txt");
+                    Clock.fileReader(Clock.processRequest[2], "src/main/java/OS/programfile2.txt");
+                    Clock.fileReader(Clock.processRequest[3], "src/main/java/OS/programfile3.txt");
+                    Clock.fileReader(Clock.processRequest[4], "src/main/java/OS/programfile4.txt");
                     
                 } else {
                     GUI.programComplete.setText("PROGRAM COMPLETE");

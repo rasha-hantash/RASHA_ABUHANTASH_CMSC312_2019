@@ -20,7 +20,6 @@ public class WaitingQueue {
                     Clock.waitingQueue.get(0).pcb.ENTER_CRIT.remove(0);
                     Clock.waitingQueue.get(0).pcb.EXIT_CRIT.remove(0);
 
-                    // Memory.memorySize += p.pcb.memoryInstructions.get(0);
                     Clock.waitingQueue.get(0).pcb.totalMemory -= Clock.waitingQueue.get(0).pcb.memoryInstructions.get(0);
                     Clock.waitingQueue.get(0).pcb.memoryInstructions.remove(0);
 
@@ -57,6 +56,8 @@ public class WaitingQueue {
                     }
                     
                 } else {
+                    //if not enough memory for that process put that process at the end 
+                    //of the waiting queue
                     Clock.waitingQueue.add(Clock.waitingQueue.get(0));
                     Clock.waitingQueue.remove(0);
 
@@ -64,10 +65,10 @@ public class WaitingQueue {
                 
             }
         }
-
+        //Logic to ensure that a process that is in waiting queue but has not 
+        //more insturctions to execute is send to the terminated queue
         if(Clock.waitingQueue.size() !=0){
             if(Clock.waitingQueue.get(0).pcb.instructions.size() == 0){
-                System.out.println("HERE");
                 dispatcher.changeState(Clock.waitingQueue.get(0), ProcessStates.TERMINATE);
                 Clock.terminatedQueue.add(Clock.waitingQueue.get(0));
                 Memory.memorySize += Clock.waitingQueue.get(0).pcb.totalMemory;

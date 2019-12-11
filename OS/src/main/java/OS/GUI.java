@@ -102,7 +102,8 @@ public final class GUI  extends Application {
     static Text busyWait = new Text();
 
     static Text programComplete = new Text();
-
+    SchedularThread schedularThread = new SchedularThread(Clock.readyQueue, Clock.readyQueue2, Clock.rQTimeQuantum, Clock.rQueueTimeQuantum2);
+    public static int threadCount = 0;
     
 
 
@@ -123,12 +124,7 @@ public final class GUI  extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		
-            //Creating a Text object 
-       
-           
-      
-        //Setting the text to be added. 
+		//Creates the components for the GUI
 
 
         readyQueueText1.setText("Ready Queue 1");
@@ -170,7 +166,7 @@ public final class GUI  extends Application {
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                
+                    //Launches the entire prorgam upon clicking the start button 
                     start = true;
                     Clock.processRequest[0] = Integer.parseInt(tA0.getText());
                     Clock.processRequest[1] = Integer.parseInt(tA1.getText());
@@ -179,26 +175,24 @@ public final class GUI  extends Application {
                     Clock.processRequest[4] = Integer.parseInt(tA4.getText());
                     Clock.cycle = Integer.parseInt(taClockCycle.getText());
 
-                    Clock.fileReader(Clock.processRequest[0], "OS/src/main/java/OS/programfile0.txt");
-                    Clock.fileReader(Clock.processRequest[1], "OS/src/main/java/OS/programfile1.txt");
-                    Clock.fileReader(Clock.processRequest[2], "OS/src/main/java/OS/programfile2.txt");
-                    Clock.fileReader(Clock.processRequest[3], "OS/src/main/java/OS/programfile3.txt");
-                    Clock.fileReader(Clock.processRequest[4], "OS/src/main/java/OS/programfile4.txt");
-                    // Clock.fileReader(Clock.processRequest[0], "programfile0.txt");
-                    // Clock.fileReader(Clock.processRequest[1], "programfile1.txt");
-                    // Clock.fileReader(Clock.processRequest[2], "programfile2.txt");
-                    // Clock.fileReader(Clock.processRequest[3], "programfile3.txt");
-                    // Clock.fileReader(Clock.processRequest[4], "programfile4.txt");
-                    SchedularThread schedularThread = new SchedularThread(Clock.readyQueue, Clock.readyQueue2, Clock.rQTimeQuantum, Clock.rQueueTimeQuantum2);
-                    schedularThread.start();
+                    
+                    Clock.fileReader(Clock.processRequest[0], "src/main/java/OS/programfile0.txt");
+                    Clock.fileReader(Clock.processRequest[1], "src/main/java/OS/programfile1.txt");
+                    Clock.fileReader(Clock.processRequest[2], "src/main/java/OS/programfile2.txt");
+                    Clock.fileReader(Clock.processRequest[3], "src/main/java/OS/programfile3.txt");
+                    Clock.fileReader(Clock.processRequest[4], "src/main/java/OS/programfile4.txt");
+                    
+                    if(threadCount == 0){
+                        schedularThread.start();
+                        threadCount++;
+                    }
+                    
                 
             }
         });
 
        
-         //setting the position of the text 
-        
-        //Creating a Group object 
+         
         StackPane layout = new StackPane();
         layout.getChildren().addAll(readyQueueText1, runningProcess, readyPCBText , runningText, runningPCBText,
         readyProcess1, readyProcess2, readyProcess3, readyProcess4, readyProcess5, readyProcess6, readyProcess7, readyProcess8,
@@ -396,13 +390,9 @@ public final class GUI  extends Application {
 
          
         Scene scene = new Scene(layout, 1200, 800);
-        //Call the clock class here 
-        //Ask for user input here
-        //Then call the class 
-        stage.setTitle("My JavaFX Application");
-        // for (int i = 0; i < 1000000000; i++) {
-        //     ta.appendText("lahsdvl lefwq gwlqwkjgl kqwldfwkhevf.");
-        // }
+        
+        stage.setTitle("My  OS Simulator");
+        
         
         
         stage.setScene(scene);

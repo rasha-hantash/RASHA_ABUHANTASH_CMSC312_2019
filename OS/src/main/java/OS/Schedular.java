@@ -1,8 +1,6 @@
 package OS;
 import java.util.ArrayList;
 public class Schedular {
-    
-    //Mutex mutex = new Mutex();
     CPU cpu = new CPU();
     Dispatcher dispatcher = new Dispatcher();
     
@@ -16,7 +14,7 @@ public class Schedular {
                 //delete process
                 //change state here 
                 dispatcher.changeState(readyQueue.get(0), ProcessStates.TERMINATE);
-                //should be zero
+              
                 Clock.terminatedQueue.add(readyQueue.get(0));
                 Memory.memorySize += readyQueue.get(0).pcb.totalMemory;
                 readyQueue.remove(0);
@@ -44,8 +42,7 @@ public class Schedular {
                         timeQuantum = 100;
                     }
                     
-                    //talk about what should set the time quantum
-                    // i think schedular should do it 
+                     
                 }
             //check to see if process in that queue has a calc instruction
             } else if (readyQueue.get(0).pcb.instructions.get(0).equals("CALCULATE")){
@@ -76,7 +73,6 @@ public class Schedular {
                 } else {
                     //change state 
                     //send to cpu
-                    // ?decrement time quantum
                     Clock.runProcess = readyQueue.get(0);
                     dispatcher.changeState(Clock.runProcess, ProcessStates.RUN);
                     
@@ -105,6 +101,9 @@ public class Schedular {
 
 
             } else if (readyQueue.get(0).pcb.instructions.get(0).equals("OUT")){ 
+                //the out instruction is used to determine that a process has finished 
+                //all of its instructions and is thusly terminated and put onto the terminated
+                //queue
                 readyQueue.get(0).pcb.clockCycle.set(0, readyQueue.get(0).pcb.clockCycle.get(0) - 1);
 
                 if(readyQueue.get(0).pcb.clockCycle.get(0) <= 0){
@@ -120,7 +119,7 @@ public class Schedular {
                 
                     
                     
-                //put on the terminated queuej
+                //put on the terminated queue
                 if(readyQueue.get(0).pcb.instructions.size() <= 0){
                     
                     Clock.terminatedQueue.add(readyQueue.get(0));
@@ -135,12 +134,12 @@ public class Schedular {
                 //add onto waiting queue
                 if (readyQueue.get(0).pcb.instructions.size() == 0) {
                     dispatcher.changeState(Clock.waitingQueue.get(0), ProcessStates.TERMINATE);
-                    //should be zero
                     Clock.terminatedQueue.add(readyQueue.get(0));
                     Memory.memorySize += readyQueue.get(0).pcb.totalMemory;
                     readyQueue.remove(0);
                 } else {
-                    
+                        //ensure that a process that has hit an i/o instruction is put on the 
+                        //waiting queue
                         if(readyQueue.size() !=0){
                             dispatcher.changeState(readyQueue.get(0), ProcessStates.WAIT);
                             Clock.waitingQueue.add(readyQueue.get(0));
@@ -155,14 +154,15 @@ public class Schedular {
                 
             }
         }
+        //to prevent the multithreaded process from accessing a queue that has zero 
+        //processes inside, Logic only required after implementing a multithreaded
+        // program
         if(readyQueue.size() > 0){
             if(readyQueue.get(0).pcb.instructions.size() == 0){
                 dispatcher.changeState(readyQueue.get(0), ProcessStates.TERMINATE);
-                //should be zero 
                 Clock.terminatedQueue.add(readyQueue.get(0));
                 Memory.memorySize += readyQueue.get(0).pcb.totalMemory;
                 readyQueue.remove(0);
-
             }
         }
         

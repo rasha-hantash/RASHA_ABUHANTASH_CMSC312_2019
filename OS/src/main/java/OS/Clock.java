@@ -23,7 +23,7 @@ public class Clock {
     static Process runProcess = new Process(); 
     
     
-
+    //randomizes isntructions cycle
     public static PCB randomizer(int random, PCB pcb) {
         
         int instructionIndex = 0;
@@ -44,6 +44,7 @@ public class Clock {
         return pcb;
     }
 
+    //reads from program files and creates the processes 
     @SuppressWarnings("unchecked")
     public static void fileReader(int processRequested, String fileName) {
         //refactor later to scan whole line
@@ -61,15 +62,12 @@ public class Clock {
             boolean exit_crit;
             while (scan.hasNext()) {
                 String sNext = scan.next();
+
                 //getting all the critical section instruction
                 // and flagging the first and last critical section
                 exit_crit = false;
                 enter_crit = false;
-                // if(sNext.equals("Memory:")){
-                //     sNext = scan.next();
-                //     int n = Integer.parseInt(sNext);
-                //     pcb2.memory = n;
-                // }
+               
                 if (sNext.equals("CRIT")) {
                     sNext = scan.next();
                     if (sNext.equals("+")) {
@@ -103,9 +101,7 @@ public class Clock {
                                 pcb2.EXIT_CRIT.set(pcb2.EXIT_CRIT.size()-1, true);
                                 exit_crit = true;
                             }
-                            // else {
-                            //     pcb2.EXIT_CRIT.add(false);
-                            // }
+                           
                         }
                     }
                     
@@ -152,6 +148,7 @@ public class Clock {
                     //change this to see if i can load it into memory if not add onto waiting
                     Random ran = new Random();
                     int randomQueue =  ran.nextInt(2);
+                    //decides which queue to put the process in
                     if(randomQueue == 0){
                         Memory.memorySize -= memorySum;
                         dispatcher.changeState(process, ProcessStates.READY);
@@ -163,6 +160,7 @@ public class Clock {
                     }
                     
                 } else {
+                    //if not enough memory, put the process into the waiting queue
                     dispatcher.changeState(process, ProcessStates.WAIT);
                     waitingQueue.add(process);
                 }
