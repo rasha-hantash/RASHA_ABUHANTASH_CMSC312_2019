@@ -484,17 +484,19 @@ public class SchedularThread extends Thread {
                 GUI.ready2Process9.setText("");
                 GUI.ready2Process10.setText("");
 
-
-                GUI.terminatedProcess1.setText("");
-                GUI.terminatedProcess2.setText("");
-                GUI.terminatedProcess3.setText("");
-                GUI.terminatedProcess4.setText("");
-                GUI.terminatedProcess5.setText("");
-                GUI.terminatedProcess6.setText("");
-                GUI.terminatedProcess7.setText("");
-                GUI.terminatedProcess8.setText("");
-                GUI.terminatedProcess9.setText("");
-                GUI.terminatedProcess10.setText("");
+                if(Clock.cycle != 0){
+                    GUI.terminatedProcess1.setText("");
+                    GUI.terminatedProcess2.setText("");
+                     GUI.terminatedProcess3.setText("");
+                    GUI.terminatedProcess4.setText("");
+                    GUI.terminatedProcess5.setText("");
+                    GUI.terminatedProcess6.setText("");
+                    GUI.terminatedProcess7.setText("");
+                    GUI.terminatedProcess8.setText("");
+                    GUI.terminatedProcess9.setText("");
+                    GUI.terminatedProcess10.setText("");
+                }
+                
     
                 GUI.runningProcess.setText("");
                 

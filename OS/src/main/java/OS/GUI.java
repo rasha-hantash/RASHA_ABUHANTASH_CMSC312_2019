@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.text.*;
 /**
@@ -101,6 +102,9 @@ public final class GUI  extends Application {
 
     static Text busyWait = new Text();
 
+    static Text error = new Text();
+    
+
     static Text programComplete = new Text();
     SchedularThread schedularThread = new SchedularThread(Clock.readyQueue, Clock.readyQueue2, Clock.rQTimeQuantum, Clock.rQueueTimeQuantum2);
     public static int threadCount = 0;
@@ -168,24 +172,34 @@ public final class GUI  extends Application {
             public void handle(ActionEvent event) {
                     //Launches the entire prorgam upon clicking the start button 
                     start = true;
-                    Clock.processRequest[0] = Integer.parseInt(tA0.getText());
+                    try {
+                        Clock.processRequest[0] = Integer.parseInt(tA0.getText());
                     Clock.processRequest[1] = Integer.parseInt(tA1.getText());
                     Clock.processRequest[2] = Integer.parseInt(tA2.getText());
                     Clock.processRequest[3] = Integer.parseInt(tA3.getText());
                     Clock.processRequest[4] = Integer.parseInt(tA4.getText());
                     Clock.cycle = Integer.parseInt(taClockCycle.getText());
-
-                    
+                    programComplete.setText("");
                     Clock.fileReader(Clock.processRequest[0], "src/main/java/OS/programfile0.txt");
                     Clock.fileReader(Clock.processRequest[1], "src/main/java/OS/programfile1.txt");
                     Clock.fileReader(Clock.processRequest[2], "src/main/java/OS/programfile2.txt");
                     Clock.fileReader(Clock.processRequest[3], "src/main/java/OS/programfile3.txt");
                     Clock.fileReader(Clock.processRequest[4], "src/main/java/OS/programfile4.txt");
+                    error.setText("");
                     
-                    if(threadCount == 0){
+                    
                         schedularThread.start();
                         threadCount++;
+                    
+                    } catch (NumberFormatException e){
+                        System.out.println("MUST INPUT NUMBERS"); 
+                        error.setText("MUST INPUT NUMBERS");
+                        e.printStackTrace();
                     }
+                    
+
+                    
+                    
                     
                 
             }
@@ -202,11 +216,14 @@ public final class GUI  extends Application {
         taClockCycle,cyclesText, programComplete, busyWait, ready2PCBText, readyQueueText2, ready2Process1, ready2Process10, ready2Process2,
         ready2Process3, ready2Process4, ready2Process5, ready2Process6, ready2Process7, ready2Process8, ready2Process9,
         terminatedPCBText, terminatedQueueText, terminatedProcess1,terminatedProcess2,terminatedProcess3,terminatedProcess4,
-        terminatedProcess5,terminatedProcess6,terminatedProcess7,terminatedProcess8,terminatedProcess9, terminatedProcess10);
+        terminatedProcess5,terminatedProcess6,terminatedProcess7,terminatedProcess8,terminatedProcess9, terminatedProcess10, error);
         
 
         
         
+        error.setTranslateX(0);
+        error.setTranslateY(300);
+        error.setFill(Color.RED);
 
 
 
@@ -262,30 +279,7 @@ public final class GUI  extends Application {
         ready2Process10.setTranslateY(140);
 
 
-        terminatedQueueText.setTranslateX(285); 
-        terminatedQueueText.setTranslateY(0); 
-        terminatedPCBText.setTranslateX(375);
-        terminatedPCBText.setTranslateY(25);
-        terminatedProcess1.setTranslateX(375);
-        terminatedProcess1.setTranslateY(50);
-        terminatedProcess2.setTranslateX(375);
-        terminatedProcess2.setTranslateY(60);
-        terminatedProcess3.setTranslateX(375);
-        terminatedProcess3.setTranslateY(70);
-        terminatedProcess4.setTranslateX(375);
-        terminatedProcess4.setTranslateY(80);
-        terminatedProcess5.setTranslateX(375);
-        terminatedProcess5.setTranslateY(90);
-        terminatedProcess6.setTranslateX(375);
-        terminatedProcess6.setTranslateY(100);
-        terminatedProcess7.setTranslateX(375);
-        terminatedProcess7.setTranslateY(110);
-        terminatedProcess8.setTranslateX(375);
-        terminatedProcess8.setTranslateY(120);
-        terminatedProcess9.setTranslateX(375);
-        terminatedProcess9.setTranslateY(130);
-        terminatedProcess10.setTranslateX(375);
-        terminatedProcess10.setTranslateY(140);
+       
 
 
 
@@ -325,6 +319,31 @@ public final class GUI  extends Application {
         waitingProcess9.setTranslateY(-170);
         waitingProcess10.setTranslateX(275);
         waitingProcess10.setTranslateY(-160);
+
+        terminatedQueueText.setTranslateX(285); 
+        terminatedQueueText.setTranslateY(0); 
+        terminatedPCBText.setTranslateX(375);
+        terminatedPCBText.setTranslateY(25);
+        terminatedProcess1.setTranslateX(375);
+        terminatedProcess1.setTranslateY(50);
+        terminatedProcess2.setTranslateX(375);
+        terminatedProcess2.setTranslateY(60);
+        terminatedProcess3.setTranslateX(375);
+        terminatedProcess3.setTranslateY(70);
+        terminatedProcess4.setTranslateX(375);
+        terminatedProcess4.setTranslateY(80);
+        terminatedProcess5.setTranslateX(375);
+        terminatedProcess5.setTranslateY(90);
+        terminatedProcess6.setTranslateX(375);
+        terminatedProcess6.setTranslateY(100);
+        terminatedProcess7.setTranslateX(375);
+        terminatedProcess7.setTranslateY(110);
+        terminatedProcess8.setTranslateX(375);
+        terminatedProcess8.setTranslateY(120);
+        terminatedProcess9.setTranslateX(375);
+        terminatedProcess9.setTranslateY(130);
+        terminatedProcess10.setTranslateX(375);
+        terminatedProcess10.setTranslateY(140);
 
 
         programFile0.setTranslateX(-420);
