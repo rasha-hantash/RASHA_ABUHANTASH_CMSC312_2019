@@ -187,9 +187,10 @@ public final class GUI  extends Application {
                     Clock.fileReader(Clock.processRequest[4], "src/main/java/OS/programfile4.txt");
                     error.setText("");
                     
-                    
+                    if(threadCount == 0){
                         schedularThread.start();
                         threadCount++;
+                    }
                     
                     } catch (NumberFormatException e){
                         System.out.println("MUST INPUT NUMBERS"); 
