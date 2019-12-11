@@ -55,7 +55,6 @@ public class Clock {
             PCB pcb2 = new PCB();
             int memorySum = 0;
             
-            System.out.println("Process ID " + processID);
             File file = new File(fileName); // change path name
             Scanner scan = new Scanner(file);
             boolean enter_crit;
@@ -158,7 +157,6 @@ public class Clock {
                         dispatcher.changeState(process, ProcessStates.READY);
                         readyQueue.add(process);
                     } else {
-                        System.out.println("In readyQueue2");
                         Memory.memorySize -= memorySum;
                         dispatcher.changeState(process, ProcessStates.READY);
                         readyQueue2.add(process);

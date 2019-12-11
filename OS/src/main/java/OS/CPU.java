@@ -12,17 +12,24 @@ public class CPU {
     //if yes remove that process from running 
     //let cpu handle mutex stuff
 
-    public int cpu(Process p, int timeQuantum) {
-        
+    public int cpu(Process p, int timeQuantum, int queueNumber) {
         Random random = new Random();
         externalEventIO = random.nextInt(10);
 
         if(externalEventIO == 1){
             // System.out.println("External event IO " + externalEventIO);
-            dispatcher.changeState(Clock.readyQueue.get(0), ProcessStates.READY);
-            Clock.readyQueue.add(Clock.readyQueue.get(0));
-            Clock.readyQueue.remove(0);
-            return timeQuantum;
+            if(queueNumber == 0){
+                dispatcher.changeState(Clock.readyQueue.get(0), ProcessStates.READY);
+                Clock.readyQueue.add(Clock.readyQueue.get(0));
+                Clock.readyQueue.remove(0);
+                return timeQuantum;
+            } else {
+                dispatcher.changeState(Clock.readyQueue2.get(0), ProcessStates.READY);
+                Clock.readyQueue2.add(Clock.readyQueue2.get(0));
+                Clock.readyQueue2.remove(0);
+                return timeQuantum;
+            }
+            
         }
 
         
@@ -50,7 +57,11 @@ public class CPU {
                                 //decrement timeQuantum 
                         //        System.out.println(Mutex.available); 
                         Mutex.release();
+                        GUI.busyWait.setText("");
                         //System.out.println(Mutex.available);
+                        Memory.memorySize += p.pcb.memoryInstructions.get(0);
+                        p.pcb.totalMemory -= p.pcb.memoryInstructions.get(0);
+                        p.pcb.memoryInstructions.remove(0);
                         p.pcb.exited_crit = true;
                         p.pcb.entered_crit = false;
                         p.pcb.instructions.remove(0);
@@ -58,9 +69,7 @@ public class CPU {
                         p.pcb.ENTER_CRIT.remove(0);
                         p.pcb.EXIT_CRIT.remove(0);
 
-                        Memory.memorySize += p.pcb.memoryInstructions.get(0);
-                        p.pcb.totalMemory -= p.pcb.memoryInstructions.get(0);
-                        p.pcb.memoryInstructions.remove(0);
+                        
                         //timeQuantum -= 1;
                         
                         //timeQuantum = 300;
@@ -70,14 +79,16 @@ public class CPU {
                     p.pcb.clockCycle.set(0, p.pcb.clockCycle.get(0) - 1);
 
                     if (p.pcb.clockCycle.get(0) == 0) {
+                        Memory.memorySize += p.pcb.memoryInstructions.get(0);
+                        p.pcb.totalMemory -= p.pcb.memoryInstructions.get(0);
+                        p.pcb.memoryInstructions.remove(0);
+                        
                         p.pcb.instructions.remove(0);
                         p.pcb.clockCycle.remove(0);
                         p.pcb.ENTER_CRIT.remove(0);
                         p.pcb.EXIT_CRIT.remove(0);
 
-                        Memory.memorySize += p.pcb.memoryInstructions.get(0);
-                        p.pcb.totalMemory -= p.pcb.memoryInstructions.get(0);
-                        p.pcb.memoryInstructions.remove(0);
+                        
                     }
                 
                 }      
@@ -98,6 +109,7 @@ public class CPU {
             //creates a busy wait if not available 
             if(Mutex.available){
                 p.pcb.entered_crit = true;
+                GUI.busyWait.setText("");
             // System.out.println(Mutex.available); 
 
             Mutex.acquire();
@@ -105,7 +117,10 @@ public class CPU {
             p.pcb.clockCycle.set(0, p.pcb.clockCycle.get(0) -1);
             timeQuantum -= 1;
             } else {
-                System.out.println("Busy wait");
+                // System.out.println("Busy wait");
+                GUI.busyWait.setText("Busy wait");
+                // return timeQuantum;
+
             }
             
 
@@ -127,6 +142,7 @@ public class CPU {
                         //decrement timeQuantum 
                 
                 Mutex.release();
+                GUI.busyWait.setText("");
                 
                 p.pcb.exited_crit = true;
                 p.pcb.entered_crit = false;
@@ -154,7 +170,16 @@ public class CPU {
                 p.pcb.memoryInstructions.remove(0);
             }
         }
-        dispatcher.changeState(Clock.readyQueue.get(0), ProcessStates.READY);
-        return timeQuantum;                  
+        if(queueNumber == 0){
+            dispatcher.changeState(Clock.readyQueue.get(0), ProcessStates.READY);
+            Clock.readyQueue.add(Clock.readyQueue.get(0));
+            Clock.readyQueue.remove(0);
+            return timeQuantum;
+        } else {
+            dispatcher.changeState(Clock.readyQueue2.get(0), ProcessStates.READY);
+            Clock.readyQueue2.add(Clock.readyQueue2.get(0));
+            Clock.readyQueue2.remove(0);
+            return timeQuantum;
+        }         
     } 
 }

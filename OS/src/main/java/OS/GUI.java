@@ -1,10 +1,5 @@
 package OS;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,7 +15,7 @@ import javafx.scene.text.*;
 public final class GUI  extends Application {
   
     
-    static Text readyQueueText = new Text();
+    static Text readyQueueText1 = new Text();
     static Text readyPCBText = new Text(); 
     static Text readyProcess1= new Text();
     static Text readyProcess2= new Text();
@@ -32,6 +27,34 @@ public final class GUI  extends Application {
     static Text readyProcess8= new Text();
     static Text readyProcess9= new Text();
     static Text readyProcess10= new Text();
+
+
+    static Text readyQueueText2 = new Text();
+    static Text ready2PCBText = new Text(); 
+    static Text ready2Process1= new Text();
+    static Text ready2Process2= new Text();
+    static Text ready2Process3= new Text();
+    static Text ready2Process4= new Text();
+    static Text ready2Process5= new Text();
+    static Text ready2Process6= new Text();
+    static Text ready2Process7= new Text();
+    static Text ready2Process8= new Text();
+    static Text ready2Process9= new Text();
+    static Text ready2Process10= new Text();
+
+
+    static Text terminatedQueueText = new Text();
+    static Text terminatedPCBText = new Text(); 
+    static Text terminatedProcess1= new Text();
+    static Text terminatedProcess2= new Text();
+    static Text terminatedProcess3= new Text();
+    static Text terminatedProcess4= new Text();
+    static Text terminatedProcess5= new Text();
+    static Text terminatedProcess6= new Text();
+    static Text terminatedProcess7= new Text();
+    static Text terminatedProcess8= new Text();
+    static Text terminatedProcess9= new Text();
+    static Text terminatedProcess10= new Text();
     
     static Text runningText = new Text();
     static Text runningPCBText = new Text();
@@ -73,7 +96,10 @@ public final class GUI  extends Application {
     static Text cycle= new Text();
     static Text memory= new Text();
 
-    static Text timeQuantum = new Text();
+    static Text timeQuantum1 = new Text();
+    static Text timeQuantum2 = new Text();
+
+    static Text busyWait = new Text();
 
     static Text programComplete = new Text();
 
@@ -105,8 +131,14 @@ public final class GUI  extends Application {
         //Setting the text to be added. 
 
 
-        readyQueueText.setText("Ready Queue");
+        readyQueueText1.setText("Ready Queue 1");
         readyPCBText.setText("PID \t Memory \t Process State \t Critical Section");
+
+        readyQueueText2.setText("Ready Queue 2");
+        ready2PCBText.setText("PID \t Memory \t Process State \t Critical Section");
+
+        terminatedQueueText.setText("Terminated Queue");
+        terminatedPCBText.setText("PID \t Memory \t Process State \t Critical Section");
 
 
         runningText.setText("Running");
@@ -118,7 +150,10 @@ public final class GUI  extends Application {
 
         cycle.setText("Cycles left: " );
         memory.setText("Memory left:" );
-        timeQuantum.setText("Time quantum: ");
+        timeQuantum1.setText("Time quantum 1: ");
+        timeQuantum2.setText("Time quantum 2: ");
+        busyWait.setText("");
+        
 
         programFile0.setText("Enter the number of processes you want from programfile0.txt: ");
         programFile1.setText("Enter the number of processes you want from programfile1.txt: ");
@@ -144,11 +179,16 @@ public final class GUI  extends Application {
                     Clock.processRequest[4] = Integer.parseInt(tA4.getText());
                     Clock.cycle = Integer.parseInt(taClockCycle.getText());
 
-                    Clock.fileReader(Clock.processRequest[0], "src/main/java/OS/programfile0.txt");
-                    Clock.fileReader(Clock.processRequest[1], "src/main/java/OS/programfile1.txt");
-                    Clock.fileReader(Clock.processRequest[2], "src/main/java/OS/programfile2.txt");
-                    Clock.fileReader(Clock.processRequest[3], "src/main/java/OS/programfile3.txt");
-                    Clock.fileReader(Clock.processRequest[4], "src/main/java/OS/programfile4.txt");
+                    Clock.fileReader(Clock.processRequest[0], "OS/src/main/java/OS/programfile0.txt");
+                    Clock.fileReader(Clock.processRequest[1], "OS/src/main/java/OS/programfile1.txt");
+                    Clock.fileReader(Clock.processRequest[2], "OS/src/main/java/OS/programfile2.txt");
+                    Clock.fileReader(Clock.processRequest[3], "OS/src/main/java/OS/programfile3.txt");
+                    Clock.fileReader(Clock.processRequest[4], "OS/src/main/java/OS/programfile4.txt");
+                    // Clock.fileReader(Clock.processRequest[0], "programfile0.txt");
+                    // Clock.fileReader(Clock.processRequest[1], "programfile1.txt");
+                    // Clock.fileReader(Clock.processRequest[2], "programfile2.txt");
+                    // Clock.fileReader(Clock.processRequest[3], "programfile3.txt");
+                    // Clock.fileReader(Clock.processRequest[4], "programfile4.txt");
                     SchedularThread schedularThread = new SchedularThread(Clock.readyQueue, Clock.readyQueue2, Clock.rQTimeQuantum, Clock.rQueueTimeQuantum2);
                     schedularThread.start();
                 
@@ -160,12 +200,15 @@ public final class GUI  extends Application {
         
         //Creating a Group object 
         StackPane layout = new StackPane();
-        layout.getChildren().addAll(readyQueueText, runningProcess, readyPCBText , runningText, runningPCBText,
+        layout.getChildren().addAll(readyQueueText1, runningProcess, readyPCBText , runningText, runningPCBText,
         readyProcess1, readyProcess2, readyProcess3, readyProcess4, readyProcess5, readyProcess6, readyProcess7, readyProcess8,
         readyProcess9, readyProcess10, waitingText, waitingPCBText, waitingProcess1, waitingProcess2, waitingProcess3, waitingProcess4, 
         waitingProcess5, waitingProcess6, waitingProcess7, waitingProcess8, waitingProcess9, waitingProcess10, cycle, memory,
-        timeQuantum, startButton, programFile0, programFile1, programFile2, programFile3, programFile4, tA0,tA1,tA2,tA3,tA4, taClockCycle,
-        cyclesText, programComplete);
+        timeQuantum1, timeQuantum2, startButton, programFile0, programFile1, programFile2, programFile3, programFile4, tA0,tA1,tA2,tA3,tA4, 
+        taClockCycle,cyclesText, programComplete, busyWait, ready2PCBText, readyQueueText2, ready2Process1, ready2Process10, ready2Process2,
+        ready2Process3, ready2Process4, ready2Process5, ready2Process6, ready2Process7, ready2Process8, ready2Process9,
+        terminatedPCBText, terminatedQueueText, terminatedProcess1,terminatedProcess2,terminatedProcess3,terminatedProcess4,
+        terminatedProcess5,terminatedProcess6,terminatedProcess7,terminatedProcess8,terminatedProcess9, terminatedProcess10);
         
 
         
@@ -173,8 +216,8 @@ public final class GUI  extends Application {
 
 
 
-        readyQueueText.setTranslateX(-550); 
-        readyQueueText.setTranslateY(-300); 
+        readyQueueText1.setTranslateX(-550); 
+        readyQueueText1.setTranslateY(-300); 
         readyPCBText.setTranslateX(-450);
         readyPCBText.setTranslateY(-275);
         readyProcess1.setTranslateX(-460);
@@ -197,6 +240,59 @@ public final class GUI  extends Application {
         readyProcess9.setTranslateY(-170);
         readyProcess10.setTranslateX(-460);
         readyProcess10.setTranslateY(-160);
+
+
+        readyQueueText2.setTranslateX(-50); 
+        readyQueueText2.setTranslateY(0); 
+        ready2PCBText.setTranslateX(50);
+        ready2PCBText.setTranslateY(25);
+        ready2Process1.setTranslateX(60);
+        ready2Process1.setTranslateY(50);
+        ready2Process2.setTranslateX(60);
+        ready2Process2.setTranslateY(60);
+        ready2Process3.setTranslateX(60);
+        ready2Process3.setTranslateY(70);
+        ready2Process4.setTranslateX(60);
+        ready2Process4.setTranslateY(80);
+        ready2Process5.setTranslateX(60);
+        ready2Process5.setTranslateY(90);
+        ready2Process6.setTranslateX(60);
+        ready2Process6.setTranslateY(100);
+        ready2Process7.setTranslateX(60);
+        ready2Process7.setTranslateY(110);
+        ready2Process8.setTranslateX(60);
+        ready2Process8.setTranslateY(120);
+        ready2Process9.setTranslateX(60);
+        ready2Process9.setTranslateY(130);
+        ready2Process10.setTranslateX(60);
+        ready2Process10.setTranslateY(140);
+
+
+        terminatedQueueText.setTranslateX(285); 
+        terminatedQueueText.setTranslateY(0); 
+        terminatedPCBText.setTranslateX(375);
+        terminatedPCBText.setTranslateY(25);
+        terminatedProcess1.setTranslateX(375);
+        terminatedProcess1.setTranslateY(50);
+        terminatedProcess2.setTranslateX(375);
+        terminatedProcess2.setTranslateY(60);
+        terminatedProcess3.setTranslateX(375);
+        terminatedProcess3.setTranslateY(70);
+        terminatedProcess4.setTranslateX(375);
+        terminatedProcess4.setTranslateY(80);
+        terminatedProcess5.setTranslateX(375);
+        terminatedProcess5.setTranslateY(90);
+        terminatedProcess6.setTranslateX(375);
+        terminatedProcess6.setTranslateY(100);
+        terminatedProcess7.setTranslateX(375);
+        terminatedProcess7.setTranslateY(110);
+        terminatedProcess8.setTranslateX(375);
+        terminatedProcess8.setTranslateY(120);
+        terminatedProcess9.setTranslateX(375);
+        terminatedProcess9.setTranslateY(130);
+        terminatedProcess10.setTranslateX(375);
+        terminatedProcess10.setTranslateY(140);
+
 
 
         runningText.setTranslateX(-215);
@@ -282,8 +378,13 @@ public final class GUI  extends Application {
         startButton.setTranslateX(-550);
         startButton.setTranslateY(300); 
 
-        timeQuantum.setTranslateX(-530);
-        timeQuantum.setTranslateY(330);
+        timeQuantum1.setTranslateX(-530);
+        timeQuantum1.setTranslateY(330);
+        timeQuantum2.setTranslateX(-400);
+        timeQuantum2.setTranslateY(330);
+        busyWait.setTranslateX(-300);
+        busyWait.setTranslateY(330);
+
         cycle.setTranslateX(-540);
         cycle.setTranslateY(350);
 

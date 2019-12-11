@@ -17,6 +17,7 @@ public class Schedular {
                 //change state here 
                 dispatcher.changeState(readyQueue.get(0), ProcessStates.TERMINATE);
                 //should be zero
+                Clock.terminatedQueue.add(readyQueue.get(0));
                 Memory.memorySize += readyQueue.get(0).pcb.totalMemory;
                 readyQueue.remove(0);
             //check to see if time quantum is zero or less 
@@ -27,7 +28,7 @@ public class Schedular {
                     //change state here
                     Clock.runProcess = readyQueue.get(0);
                     dispatcher.changeState(Clock.runProcess, ProcessStates.RUN);
-                    timeQuantum = cpu.cpu(readyQueue.get(0), timeQuantum);
+                    timeQuantum = cpu.cpu(readyQueue.get(0), timeQuantum, queueNumber);
                 } else {
                     //timeQuantum for that process is done and so put it at the end
                     //of the readyQueue
@@ -40,7 +41,6 @@ public class Schedular {
                     if(queueNumber <= 0){
                         timeQuantum = 40;
                     } else if (queueNumber == 1){
-                        System.out.println("HIT 1");
                         timeQuantum = 100;
                     }
                     
@@ -71,7 +71,7 @@ public class Schedular {
                             //change state
                             Clock.runProcess = readyQueue.get(0);
                             dispatcher.changeState(Clock.runProcess, ProcessStates.RUN);
-                            timeQuantum = cpu.cpu(readyQueue.get(0), timeQuantum);
+                            timeQuantum = cpu.cpu(readyQueue.get(0), timeQuantum, queueNumber);
                         }
                 } else {
                     //change state 
@@ -80,7 +80,7 @@ public class Schedular {
                     Clock.runProcess = readyQueue.get(0);
                     dispatcher.changeState(Clock.runProcess, ProcessStates.RUN);
                     
-                    timeQuantum = cpu.cpu(readyQueue.get(0), timeQuantum);
+                    timeQuantum = cpu.cpu(readyQueue.get(0), timeQuantum, queueNumber);
                     
                 }
 
@@ -122,9 +122,10 @@ public class Schedular {
                     
                 //put on the terminated queuej
                 if(readyQueue.get(0).pcb.instructions.size() <= 0){
-                    System.out.println("HERE");
+                    
                     Clock.terminatedQueue.add(readyQueue.get(0));
                     dispatcher.changeState(readyQueue.get(0), ProcessStates.TERMINATE);
+                    System.out.println("TERMINATED HERE " + Clock.terminatedQueue.size());
                     readyQueue.remove(0);
                 }
 
@@ -135,6 +136,7 @@ public class Schedular {
                 if (readyQueue.get(0).pcb.instructions.size() == 0) {
                     dispatcher.changeState(Clock.waitingQueue.get(0), ProcessStates.TERMINATE);
                     //should be zero
+                    Clock.terminatedQueue.add(readyQueue.get(0));
                     Memory.memorySize += readyQueue.get(0).pcb.totalMemory;
                     readyQueue.remove(0);
                 } else {
@@ -157,6 +159,7 @@ public class Schedular {
             if(readyQueue.get(0).pcb.instructions.size() == 0){
                 dispatcher.changeState(readyQueue.get(0), ProcessStates.TERMINATE);
                 //should be zero 
+                Clock.terminatedQueue.add(readyQueue.get(0));
                 Memory.memorySize += readyQueue.get(0).pcb.totalMemory;
                 readyQueue.remove(0);
 

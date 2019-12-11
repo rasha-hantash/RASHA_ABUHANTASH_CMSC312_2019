@@ -1,4 +1,7 @@
 package OS;
+
+import java.util.Random;
+
 public class WaitingQueue {
 
     Dispatcher dispatcher = new Dispatcher();
@@ -26,6 +29,7 @@ public class WaitingQueue {
                     if (Clock.waitingQueue.get(0).pcb.instructions.size() == 0) {
                         dispatcher.changeState(Clock.waitingQueue.get(0), ProcessStates.TERMINATE);
                         //this should be zero 
+                        Clock.terminatedQueue.add(Clock.waitingQueue.get(0));
                         Memory.memorySize += Clock.waitingQueue.get(0).pcb.totalMemory;
                         Clock.waitingQueue.remove(0);
                     }
@@ -37,10 +41,21 @@ public class WaitingQueue {
                 //if there is enough memory then put it onto ready queue, otherwise put it onto
                 // the end of the waiting queue
                 if(Memory.memorySize > Clock.waitingQueue.get(0).pcb.totalMemory) {
-                    dispatcher.changeState(Clock.waitingQueue.get(0), ProcessStates.READY);
-                    Clock.readyQueue.add(Clock.waitingQueue.get(0));
-                    Memory.memorySize -= Clock.waitingQueue.get(0).pcb.totalMemory;
-                    Clock.waitingQueue.remove(0);
+                    Random rand = new Random();
+                    int randQueue = rand.nextInt(2);
+
+                    if(randQueue == 0){
+                        dispatcher.changeState(Clock.waitingQueue.get(0), ProcessStates.READY);
+                        Clock.readyQueue.add(Clock.waitingQueue.get(0));
+                        Memory.memorySize -= Clock.waitingQueue.get(0).pcb.totalMemory;
+                        Clock.waitingQueue.remove(0);
+                    } else {
+                        dispatcher.changeState(Clock.waitingQueue.get(0), ProcessStates.READY);
+                        Clock.readyQueue2.add(Clock.waitingQueue.get(0));
+                        Memory.memorySize -= Clock.waitingQueue.get(0).pcb.totalMemory;
+                        Clock.waitingQueue.remove(0);
+                    }
+                    
                 } else {
                     Clock.waitingQueue.add(Clock.waitingQueue.get(0));
                     Clock.waitingQueue.remove(0);
@@ -54,6 +69,8 @@ public class WaitingQueue {
             if(Clock.waitingQueue.get(0).pcb.instructions.size() == 0){
                 System.out.println("HERE");
                 dispatcher.changeState(Clock.waitingQueue.get(0), ProcessStates.TERMINATE);
+                Clock.terminatedQueue.add(Clock.waitingQueue.get(0));
+                Memory.memorySize += Clock.waitingQueue.get(0).pcb.totalMemory;
                 Clock.waitingQueue.remove(0);
             }
         }
